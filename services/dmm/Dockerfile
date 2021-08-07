@@ -7,12 +7,12 @@ RUN apt update \
 
 WORKDIR /usr/src/app
 
-COPY services/admin_itube ./app
+COPY services/dmm ./app
 COPY services/database ./database
 COPY services/utils ./utils
 COPY scripts ./scripts
 
-COPY docker/admin_itube/requirements.txt requirements.txt
+COPY docker/dmm/requirements.txt requirements.txt
 RUN pip install -U pip \
     && pip install --trusted-host pypi.python.org -r requirements.txt
 
