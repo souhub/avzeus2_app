@@ -14,7 +14,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - docker build -f services/admin_itube/Dockerfile -t ${IMAGE_NAME} .
+      - docker build -f services/${SERVICE_NAME}/Dockerfile -t ${IMAGE_NAME} .
       - docker tag ${IMAGE_NAME}:latest ${REPOSITORY_URI}:latest
       - docker tag ${IMAGE_NAME}:latest ${REPOSITORY_URI}:${IMAGE_TAG}
       # Migration
