@@ -38,12 +38,13 @@ router.include_router(
 async def health_check():
     return 'A page for health check.'
 
-if env.APP_ENV == 'development':
-    app = FastAPI()
-else:
-    app = FastAPI(docs_url=None,
-                  redoc_url=None,
-                  openapi_url=None)
+# if env.APP_ENV == 'development':
+#     app = FastAPI()
+# else:
+#     app = FastAPI(docs_url=None,
+#                   redoc_url=None,
+#                   openapi_url=None)
+app = FastAPI()
 
 app.include_router(
     router,
