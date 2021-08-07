@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Pre-Build started on `date`
+      - aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+      - echo Loggin in to Docker Hub
+      - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - REPOSITORY_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPOSITORY_NAME}
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - docker build -f services/admin_itube/Dockerfile -t ${IMAGE_NAME} .
+      - docker tag ${IMAGE_NAME}:latest ${REPOSITORY_URI}:latest
+      - docker tag ${IMAGE_NAME}:latest ${REPOSITORY_URI}:${IMAGE_TAG}
+      # Migration
+      # - echo Executing the migration
+      # - docker-compose -f docker-compose.${BUILD_SUFFIX}.yml run -e MYSQL_HOST=${MYSQL_HOST} -e MYSQL_USER=${MYSQL_USER} -e MYSQL_PASSWORD=${MYSQL_PASSWORD} -e TZ=${TZ} -e PYTHONPATH=${PYTHONPATH} api bash -c "cd /usr/src/app/db && alembic upgrade head"
+  post_build:
+    commands:
+      - echo Post-Build started on `date`
+      - docker push ${REPOSITORY_URI}:latest
+      - docker push ${REPOSITORY_URI}:${IMAGE_TAG}
+      - echo Writing image definitions file...
+      - printf '[{"name":"%s","imageUri":"%s"}]' ${IMAGE_NAME} ${REPOSITORY_URI}:${IMAGE_TAG} > imagedefinitions.json
+artifacts:
+    files: imagedefinitions.json

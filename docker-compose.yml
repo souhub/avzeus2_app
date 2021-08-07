@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  dmm:
+    image: "avzeus-dmm_dev"
+    container_name: "avzeus-dmm_dev"
+    build:
+        context: "./docker/dmm"
+    ports:
+        - "8001:8080"
+    volumes:
+        - ./services/dmm/:/usr/src/app/app:cached
+        - ./services/database:/usr/src/app/database:cached
+        - ./services/utils:/usr/src/app/utils:cached
+        - ./scripts:/usr/src/app/scripts:cached
+        - ./var/log/dmm:/var/log/app:cached
+    working_dir: /usr/src/app/scripts
+    command: bash ./run.sh
+    environment:
+        APP_ENV: "development"
+        TZ: "Asia/Tokyo"
+    env_file:
+        - .env.development
+
+  db:
+    image: "avzeus-mysql_dev"
+    container_name: "avzeus-mysql_dev"
+    build:
+        context: ./docker/mysql
+    restart: always
+    tty: true
+    ports:
+        - "3306:3306"
+    volumes:
+        - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+        - ./docker/mysql/conf.d:/etc/mysql/conf.d
+        - ./var/log/mysql:/var/log/mysql
+    environment:
+        - TZ=Asia/Tokyo
+        - MARIADB_ROOT_PASSWORD=pass
+        - MARIADB_DATABASE=hryk_db
+    env_file:
+        - .env.development
