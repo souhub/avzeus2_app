@@ -1,11 +1,12 @@
 from fastapi import FastAPI, APIRouter
 from starlette.middleware.base import BaseHTTPMiddleware
 from middlewares import http_log
-import utils.env as env
 from routers.actress import router as actress_router
 from routers.floor import router as floor_router
 from routers.genre import router as genre_router
-from routers.csv import router as csv_router
+from routers.item import router as item_router
+from routers.download import router as download_router
+
 
 router = APIRouter()
 
@@ -28,9 +29,15 @@ router.include_router(
 )
 
 router.include_router(
-    csv_router,
-    prefix='/csv',
-    tags=['csv']
+    item_router,
+    prefix='/item',
+    tags=['item']
+)
+
+router.include_router(
+    download_router,
+    prefix='/download',
+    tags=['download']
 )
 
 

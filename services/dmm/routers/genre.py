@@ -1,6 +1,6 @@
 from typing import Optional
 import schemas
-from dmm_client import DMM_client
+from dmm_client import DMMClient
 from fastapi import APIRouter
 
 from utils.logger import get_logger
@@ -21,6 +21,6 @@ async def genre_search(floor_id: Optional[int] = 43, initial: Optional[str] = No
     - **offset**: [検索開始位置]  初期値 1
     - **output**: [出力形式]　json/xml
     """
-    client = DMM_client()
+    client = DMMClient()
     response = client.genre_search(floor_id, initial, hits, offset, output)
     return response.json()['result']

@@ -1,6 +1,6 @@
 from typing import Optional
 import schemas
-from dmm_client import DMM_client
+from dmm_client import DMMClient
 from fastapi import APIRouter
 from utils.logger import get_logger
 
@@ -16,6 +16,6 @@ async def floor_list(output: Optional[str] = 'json'):
 
     - **output**: [出力形式] json/xml
     """
-    client = DMM_client()
+    client = DMMClient()
     response = client.floor_list(output)
     return response.json()['result']

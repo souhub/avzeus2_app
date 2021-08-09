@@ -1,6 +1,6 @@
 from typing import Optional
 import schemas
-from dmm_client import DMM_client
+from dmm_client import DMMClient
 from fastapi import APIRouter
 from utils.logger import get_logger
 
@@ -34,7 +34,7 @@ async def actress_search(initial: Optional[str] = None, actress_id: Optional[int
     - **output**: [出力形式]　json/xml
     """
 
-    client = DMM_client()
+    client = DMMClient()
     response = client.actress_search(initial, actress_id, keyword, gte_bust, lte_bust, gte_waist, lte_waist,
                                      gte_hip, lte_hip, gte_height, lte_height, gte_birshday, lte_birthday, hits, offset, sort)
     return response.json()['result']
