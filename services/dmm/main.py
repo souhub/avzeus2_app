@@ -1,5 +1,7 @@
 from fastapi import FastAPI, APIRouter
 from starlette.middleware.base import BaseHTTPMiddleware
+from fastapi.middleware.cors import CORSMiddleware
+
 from middlewares import http_log
 from routers.actress import router as actress_router
 from routers.floor import router as floor_router
@@ -59,3 +61,16 @@ app.include_router(
 )
 
 app.add_middleware(BaseHTTPMiddleware, dispatch=http_log)
+
+origins = [
+    'http://localhost:3000',
+    'https://avzeus.net'
+    # 'http://172.22.0.1:3000'
+]
+
+app.add_middleware(CORSMiddleware,
+                   allow_origins=origins,
+                   allow_credentials=True,
+                   allow_methods=['*'],
+                   allow_headers=['*']
+                   )
