@@ -64,7 +64,7 @@ app.add_middleware(BaseHTTPMiddleware, dispatch=http_log)
 
 origins = [
     'http://localhost:3000',
-    'https://avzeus.net'
+    'https://www.avzeus.net'
     # 'http://172.22.0.1:3000'
 ]
 
