@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 import schemas
 from dmm_client import DMMClient
 from fastapi import APIRouter
@@ -9,7 +9,7 @@ router = APIRouter()
 logger = get_logger(__name__)
 
 
-@router.get('/search', response_model=schemas.ActressResult)
+@router.get('/search', response_model=List[schemas.Actress])
 async def actress_search(initial: Optional[str] = None, actress_id: Optional[int] = None, keyword: Optional[str] = None, gte_bust: Optional[str] = None, lte_bust: Optional[str] = None, gte_waist: Optional[str] = None, lte_waist: Optional[str] = None,	gte_hip: Optional[str] = None,
                          lte_hip: Optional[str] = None,	gte_height: Optional[str] = None, lte_height: Optional[str] = None, gte_birshday: Optional[str] = None, lte_birthday: Optional[str] = None, hits: Optional[int] = None, offset: Optional[int] = None, sort: Optional[str] = None):
     """
@@ -37,4 +37,4 @@ async def actress_search(initial: Optional[str] = None, actress_id: Optional[int
     client = DMMClient()
     response = client.actress_search(initial, actress_id, keyword, gte_bust, lte_bust, gte_waist, lte_waist,
                                      gte_hip, lte_hip, gte_height, lte_height, gte_birshday, lte_birthday, hits, offset, sort)
-    return response.json()['result']
+    return response.json()['result']['actress']

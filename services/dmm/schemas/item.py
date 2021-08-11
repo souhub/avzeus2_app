@@ -111,7 +111,7 @@ class Item(BaseModel):
     affiliateURLsp: Optional[str]
     imageURL: Optional[ImageURL]
     sampleMovieURL: Optional[SampleMovieURL]
-    iteminfo: Optional[ItemInfo]
+    # iteminfo: Optional[ItemInfo]
     jancode: Optional[str]
     maker_product: Optional[str]
     isbn: Optional[str]

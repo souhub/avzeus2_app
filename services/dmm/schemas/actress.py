@@ -15,14 +15,14 @@ class ImageUrl(BaseModel):
 
 
 class Actress(BaseModel):
-    id: Optional[str]
+    id: Optional[int]
     name: Optional[str]
     ruby: Optional[str]
-    bust: Optional[str]
+    bust: Optional[int]
     cup: Optional[str]
-    waist: Optional[str]
-    hip: Optional[str]
-    height: Optional[str]
+    waist: Optional[int]
+    hip: Optional[int]
+    height: Optional[int]
     birthday: Optional[str]
     blood_type: Optional[str]
     hobby: Optional[str]
@@ -32,8 +32,8 @@ class Actress(BaseModel):
 
 
 class Result(BaseModel):
-    status: str
+    status: int
     result_count: int
-    total_count: str
+    total_count: int
     first_position: int
-    actress: List[Actress]
+    actress: Optional[List[Actress]]
